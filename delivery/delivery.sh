@@ -20,4 +20,15 @@ do_devel(){
     docker run --rm --publish=8080:8080 --name=$PROJECT_NAME $DOCKER_TAG $1
 }
 
+do_build(){
+    ./gradlew --no-daemon clean build
+
+    cp boot/build/libs/boot.jar delivery/runner/boot.jar
+    docker build -t $DOCKER_TAG delivery/runner
+    rm delivery/runner/boot.jar
+
+    docker push $DOCKER_TAG
+}
+
+
 do_$1 $2
