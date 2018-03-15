@@ -30,6 +30,17 @@ do_build(){
     docker push $DOCKER_TAG
 }
 
+do_setup(){
+    DEPLOY_SERVER=$1
+
+    ssh ubuntu@$DEPLOY_SERVER sudo -s <<EOF
+    apt update
+    curl -o docker.deb https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce_17.12.1~ce-0~ubuntu_amd64.deb
+    apt install -f ./docker.deb
+    rm docker.deb
+EOF
+}
+
 do_deploy(){
     ACTIVE_PROFILE=$1
     DEPLOY_SERVER=$2
