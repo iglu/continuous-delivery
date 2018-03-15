@@ -1,0 +1,19 @@
+apply from: "$rootDir/gradle/dependency-management.gradle"
+apply plugin: "java"
+
+sourceCompatibility = javaVersion
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    compileOnly(
+            'org.projectlombok:lombok',
+    )
+
+    testCompileOnly(
+            'org.projectlombok:lombok',
+    )
+}

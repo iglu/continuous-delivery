@@ -1,0 +1,30 @@
+apply from: "$rootDir/gradle/java.gradle"
+apply plugin: 'org.springframework.boot'
+
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter"
+
+    runtime "org.springframework.boot:spring-boot-starter-actuator"
+    runtime "org.springframework.boot:spring-boot-starter-web"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            version = rootProject.version
+        }
+    }
+}
+
+// do not add version info to boot.jar file name
+version = null
+
+build.doLast {
+    new File(buildDir, "libs/build.env").withWriter('UTF-8') { writer ->
+        writer.println "PROJECT_NAME=${rootProject.name}"
+        writer.println "PROJECT_VERSION=${rootProject.version}"
+    }
+}

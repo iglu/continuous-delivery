@@ -1,0 +1,5 @@
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
+    //noinspection UnnecessaryQualifiedReference
+    distributionType = Wrapper.DistributionType.ALL
+}
