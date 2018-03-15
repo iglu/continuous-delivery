@@ -30,5 +30,16 @@ do_build(){
     docker push $DOCKER_TAG
 }
 
+do_deploy(){
+    ACTIVE_PROFILE=$1
+    DEPLOY_SERVER=$2
 
-do_$1 $2
+    ssh ubuntu@$DEPLOY_SERVER sudo -s <<EOF
+    docker pull $DOCKER_TAG
+    docker stop $PROJECT_NAME
+    docker run --rm --detach --publish=80:8080 --name=$PROJECT_NAME $DOCKER_TAG $ACTIVE_PROFILE
+EOF
+}
+
+
+do_$1 $2 $3
