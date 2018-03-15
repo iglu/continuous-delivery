@@ -3,14 +3,18 @@
 # fail on first error
 set -e
 
-set -a
-source boot/build/libs/build.env
-set +a
+build_env(){
+    set -a
+    source boot/build/libs/build.env
+    set +a
 
-DOCKER_TAG=iglu/$PROJECT_NAME:$PROJECT_VERSION
+    DOCKER_TAG=iglu/$PROJECT_NAME:$PROJECT_VERSION
+}
 
 build(){
     ./gradlew --no-daemon clean build
+
+    build_env
 
     cp boot/build/libs/boot.jar delivery/runner/boot.jar
     docker build -t $DOCKER_TAG delivery/runner
@@ -34,14 +38,18 @@ do_setup(){
     DEPLOY_SERVER=$1
 
     ssh ubuntu@$DEPLOY_SERVER sudo -s <<EOF
-    apt update
     curl -o docker.deb https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce_17.12.1~ce-0~ubuntu_amd64.deb
-    apt install -f ./docker.deb
+    dpkg -i docker.deb
     rm docker.deb
+
+    apt-get update
+    apt-get -yf install
 EOF
 }
 
 do_deploy(){
+    build_env
+
     ACTIVE_PROFILE=$1
     DEPLOY_SERVER=$2
 
