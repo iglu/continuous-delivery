@@ -9,7 +9,7 @@ set +a
 
 DOCKER_TAG=iglu/$PROJECT_NAME:$PROJECT_VERSION
 
-do_devel(){
+do_run(){
     ./gradlew --no-daemon clean build
 
     cp boot/build/libs/boot.jar delivery/runner/boot.jar
