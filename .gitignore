@@ -1,0 +1,14 @@
+## Gradle
+.gradle/
+build/
+
+## IntelliJ
+out/
+/.idea/*
+!/.idea/codeStyles/
+!/.idea/compiler.xml
+!/.idea/encodings.xml
+!/.idea/gradle.xml
+!/.idea/runConfigurations/
+!/.idea/sqldialects.xml
+!/.idea/vcs.xml
